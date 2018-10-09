@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+  <head>
+    <title>C2C bootcamp practice</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <style type="text/css">
+      #login, #loggedin {
+        display: none;
+      }
+
+      #obtain-top3 {
+         margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="login">
+        <h1>Log in to your Spotify account</h1>
+        <p>By allowing access to your account, we will retrieve information related to your public profile</p>
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+      </div>
+       <div id="loggedin">
+        <div id="user-profile">
+          <div id = "welcome-msg"></div>
+          <div class="media">
+            <div id = "profile-picture" class="pull-left"></div>
+            <div class = "media-body">
+              <dl class="dl-horizontal">
+                <dt>Display name</dt><dd id = "display-name" class="clearfix"></dd>
+                <dt>Id</dt><dd id = "id"></dd>
+                <dt>Email</dt><dd id = "email"></dd>
+                <dt>Spotify URI</dt><dd id = "external_urls"></dd>
+                <dt>Spotify Developer Account</dt><dd id = "href"></dd>
+                <dt>Country</dt><dd id = "country"></dd>
+              </dl>
+              <button class="btn btn-info" id="obtain-top3">Obtain user top3 tracks</button>
+              <table id="top3" class = "table table-bordered table-striped"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function() {
+
+        function buildUserProfile(response) {
+           var content = "<h1>Logged in as " + response.display_name + "</h1>";
+           document.getElementById("welcome-msg").innerHTML = content;
+           document.getElementById("display-name").innerHTML = response.display_name;
+           document.getElementById("id").innerHTML = response.id;
+           document.getElementById("email").innerHTML = response.email;
+           document.getElementById("external_urls").innerHTML = "<a href=\"" + response.external_urls.spotify + "\">" + response.external_urls.spotify + "</a>"; 
+           document.getElementById("href").innerHTML = "<a href=\"" + response.href + "\">" + response.href + "</a>";
+           document.getElementById("country").innerHTML = response.country;
+           if (response.images.length != 0) {
+               document.getElementById("profile-picture").innerHTML = "<a href=\"" + response.images[0].url + "\"><img src=\"" + response.images[0].url + "\"></a>";
+           } else {
+              image_url = "https://underconstructionpage.com/app/wp-content/uploads/2017/10/interview-no-image.png"
+              document.getElementById("profile-picture").innerHTML = "<a href=\"" + image_url + "\"><img src=\"" + image_url + "\"></a>";
+           }
+        }
+
+        function buildTop3(tracks_data) {
+         //Exercise 3: build the html element from the response data
+        }
+
+      
+        /**
+         * Obtains parameters from the hash of the URL
+         * @return Object
+         */
+        function getHashParams() {
+          var hashParams = {};
+          var e, r = /([^&;=]+)=?([^&;]*)/g,
+              q = window.location.hash.substring(1);
+          while ( e = r.exec(q)) {
+             hashParams[e[1]] = decodeURIComponent(e[2]);
+          }
+          return hashParams;
+        }
+       
+        var params = getHashParams();
+        var access_token = params.access_token,
+            refresh_token = params.refresh_token,
+            error = params.error;
+        if (error) {
+          alert('There was an error during the authentication');
+        } else {
+          if (access_token) {
+            $.ajax({
+                url: 'https://api.spotify.com/v1/me',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                  $('#login').hide();
+                  $('#loggedin').show();
+                  buildUserProfile(response);
+                }
+            });
+          } else {
+              // render initial screen
+              $('#login').show();
+              $('#loggedin').hide();
+          }
+
+          document.getElementById('obtain-top3').addEventListener('click', function() {
+            $.ajax({
+              //Exercise 2: fill in the url of the request
+             url: '',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+            }).done(function(data) {
+              buildTop3(data);
+            });
+          }, false);
+        }
+      })();
+    </script>
+  </body>
+</html>
