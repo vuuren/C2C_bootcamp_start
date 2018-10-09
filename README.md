@@ -1,7 +1,6 @@
 # C2C_bootcamp_start
 
 We will use this project as a base for our C2C bootcamp exercises. It is based on the code from [Spotify Web API authorization examples](https://github.com/spotify/web-api-auth-examples). In the app.js we are using the code for tge authorization code method.
-This project contains basic demos showing the different OAuth 2.0 flows for [authenticating against the Spotify Web API]
 
 The places where you need to insert code are marked by comments and will be also mentioned during the bootcamp.
 
