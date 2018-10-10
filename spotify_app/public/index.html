@@ -20,7 +20,7 @@
       <div id="login">
         <h1>Log in to your Spotify account</h1>
         <p>By allowing access to your account, we will retrieve information related to your public profile</p>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+        <a href="/login" class="btn btn-success">Log in with Spotify</a>
       </div>
        <div id="loggedin">
         <div id="user-profile">
@@ -28,14 +28,57 @@
           <div class="media">
             <div id = "profile-picture" class="pull-left"></div>
             <div class = "media-body">
+             
+
+
+         
               <dl class="dl-horizontal">
-                <dt>Display name</dt><dd id = "display-name" class="clearfix"></dd>
+               <!-- <dt>Display name</dt><dd id = "display-name" class="clearfix"></dd>
                 <dt>Id</dt><dd id = "id"></dd>
                 <dt>Email</dt><dd id = "email"></dd>
                 <dt>Spotify URI</dt><dd id = "external_urls"></dd>
                 <dt>Spotify Developer Account</dt><dd id = "href"></dd>
                 <dt>Country</dt><dd id = "country"></dd>
+                <dt>Birthdate</dt><dd id = "birthdate"></dd>-->
               </dl>
+            
+  
+
+
+              <table  class="table table-striped">
+                <tr>
+                  <td>Display name</td>
+                  <td id = "display-name" class="clearfix"></td>
+                </tr>        
+                <tr>
+                  <td>Id</td>
+                  <td id = "id"></td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td id = "email"></td>
+                </tr>        
+                <tr>
+                  <td>Spotify URI</td>
+                  <td id = "external_urls"></td>
+                </tr>
+                <tr>
+                  <td>Spotify Developer Account</td>
+                  <td id = "href"></td>
+                </tr>        
+                <tr>
+                  <td>Country</td>
+                  <td id = "country"></td>
+                </tr>
+                <tr>
+                  <td>Birthdate</td>
+                  <td id = "birthdate"></td>
+                </tr>
+              </table>
+
+
+
+
               <button class="btn btn-info" id="obtain-top3">Obtain user top3 tracks</button>
               <table id="top3" class = "table table-bordered table-striped"></table>
             </div>
@@ -47,6 +90,7 @@
       (function() {
 
         function buildUserProfile(response) {
+         console.log(response);
            var content = "<h1>Logged in as " + response.display_name + "</h1>";
            document.getElementById("welcome-msg").innerHTML = content;
            document.getElementById("display-name").innerHTML = response.display_name;
@@ -55,6 +99,7 @@
            document.getElementById("external_urls").innerHTML = "<a href=\"" + response.external_urls.spotify + "\">" + response.external_urls.spotify + "</a>"; 
            document.getElementById("href").innerHTML = "<a href=\"" + response.href + "\">" + response.href + "</a>";
            document.getElementById("country").innerHTML = response.country;
+           document.getElementById("birthdate").innerHTML = response.birthdate;
            if (response.images.length != 0) {
                document.getElementById("profile-picture").innerHTML = "<a href=\"" + response.images[0].url + "\"><img src=\"" + response.images[0].url + "\"></a>";
            } else {
