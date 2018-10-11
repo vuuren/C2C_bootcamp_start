@@ -79,6 +79,7 @@
 
 
               <table id="static-table" class = "table table-bordered table-striped"></table>
+              <table id="filled-table" class = "table table-bordered table-striped"></table>
               <button class="btn btn-info" id="obtain-top3">Obtain user top3 tracks</button>
               <table id="top3" class = "table table-bordered table-striped"></table>
             </div>
@@ -124,10 +125,39 @@
            }
         }
 
-        function buildTop3(tracks_data) {
+        function buildTop3(data) {
          //Exercise 3: build the html element from the response data
-        }
+         console.log(data);
+        
+         var noRows = data.items.length;
+         var table = document.getElementById("filled-table");
+       
+           for (k=0; k<noRows; k++){
+              console.log("voeg rij nummer in " + k);
+              var row = table.insertRow(k);
+              
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              cell1.innerHTML = data.items[k].track.artists[0].name;
+              cell2.innerHTML = data.items[k].track.album.name;
+              cell3.innerHTML = data.items[k].track.name;
+           }
 
+           var header = table.createTHead();
+           var row = header.insertRow(0); 
+           var cell1 = row.insertCell(0);
+           var cell2 = row.insertCell(1);
+           var cell3 = row.insertCell(2);
+           cell1.innerHTML = "<b>Artist</b>";
+           cell2.innerHTML = "<b>Album</b>";
+           cell3.innerHTML = "<b>Track</b>";
+           
+
+
+         
+
+        }
       
         /**
          * Obtains parameters from the hash of the URL
@@ -172,7 +202,7 @@
           document.getElementById('obtain-top3').addEventListener('click', function() {
             $.ajax({
               //Exercise 2: fill in the url of the request
-             url: '',
+             url: 'https://api.spotify.com/v1/me/tracks',
                 headers: {
                   'Authorization': 'Bearer ' + access_token
                 },
