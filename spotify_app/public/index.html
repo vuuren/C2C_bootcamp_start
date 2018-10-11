@@ -32,15 +32,15 @@
 
 
          
-              <dl class="dl-horizontal">
-               <!-- <dt>Display name</dt><dd id = "display-name" class="clearfix"></dd>
+              <!--<dl class="dl-horizontal">
+                <dt>Display name</dt><dd id = "display-name" class="clearfix"></dd>
                 <dt>Id</dt><dd id = "id"></dd>
                 <dt>Email</dt><dd id = "email"></dd>
                 <dt>Spotify URI</dt><dd id = "external_urls"></dd>
                 <dt>Spotify Developer Account</dt><dd id = "href"></dd>
                 <dt>Country</dt><dd id = "country"></dd>
-                <dt>Birthdate</dt><dd id = "birthdate"></dd>-->
-              </dl>
+                <dt>Birthdate</dt><dd id = "birthdate"></dd>
+              </dl>-->
             
   
 
@@ -78,7 +78,7 @@
 
 
 
-
+              <table id="static-table" class = "table table-bordered table-striped"></table>
               <button class="btn btn-info" id="obtain-top3">Obtain user top3 tracks</button>
               <table id="top3" class = "table table-bordered table-striped"></table>
             </div>
@@ -88,6 +88,22 @@
     </div>
     <script>
       (function() {
+
+        function buildStaticTable() {
+
+           var table = document.getElementById("static-table");
+           var noRows = 5;
+           var noCells = 3;
+
+           for(i=0; i<noRows; i++){
+            console.log("Inserting row number " + i);
+            var row = table.insertRow(i);
+             for (j=0; j<noCells;j++){
+              var cell = row.insertCell(j);
+              cell.innerHTML = "cell_ "+ i + "_"+j;
+             }
+           } 
+        }
 
         function buildUserProfile(response) {
          console.log(response);
@@ -144,6 +160,7 @@
                   $('#login').hide();
                   $('#loggedin').show();
                   buildUserProfile(response);
+                  buildStaticTable();
                 }
             });
           } else {
